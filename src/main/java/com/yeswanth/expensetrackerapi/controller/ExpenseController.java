@@ -2,6 +2,7 @@ package com.yeswanth.expensetrackerapi.controller;
 
 import com.yeswanth.expensetrackerapi.models.Expense;
 import com.yeswanth.expensetrackerapi.service.ExpenseService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,7 @@ public class ExpenseController {
     }
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping("/expenses")
-    public Expense saveExpensseDetails(@RequestBody Expense expense){
+    public Expense saveExpensseDetails(@Valid @RequestBody Expense expense){
         return expenseService.saveExpenseDetails(expense);
     }
     @PutMapping("/expense/{id}")
