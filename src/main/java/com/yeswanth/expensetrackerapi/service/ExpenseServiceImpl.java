@@ -1,5 +1,6 @@
 package com.yeswanth.expensetrackerapi.service;
 
+import com.yeswanth.expensetrackerapi.Exceptions.ResourceNotFoundException;
 import com.yeswanth.expensetrackerapi.models.Expense;
 import com.yeswanth.expensetrackerapi.repository.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,7 +26,7 @@ public class ExpenseServiceImpl implements ExpenseService{
         if(expenseOptional.isPresent()){
             return expenseOptional.get();
         }
-        throw new RuntimeException("expense is not found for the id "+id);
+        throw new ResourceNotFoundException("expense is not found for the id "+id);
     }
 
     @Override
