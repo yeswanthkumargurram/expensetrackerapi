@@ -3,6 +3,8 @@ package com.yeswanth.expensetrackerapi.service;
 import com.yeswanth.expensetrackerapi.models.Expense;
 import com.yeswanth.expensetrackerapi.repository.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,8 +15,9 @@ public class ExpenseServiceImpl implements ExpenseService{
     @Autowired
     private ExpenseRepository expenseRepository;
     @Override
-    public List<Expense> getAllExpenses() {
-        return expenseRepository.findAll();
+    public Page<Expense> getAllExpenses(Pageable page) {
+
+        return expenseRepository.findAll(page);
     }
 
     @Override
