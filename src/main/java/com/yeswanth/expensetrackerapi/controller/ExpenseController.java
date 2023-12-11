@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -37,5 +38,19 @@ public class ExpenseController {
     public Expense updateExpenseDetails(@RequestBody Expense expense, @PathVariable Long id){
         return expenseService.updateExpenseDetails(id, expense);
     }
-
+    @GetMapping("/expense/category")
+    public List<Expense> getExpenseByCategory(@RequestParam String category, Pageable page){
+        return expenseService.readByCategory(category, page);
+    }
+    @GetMapping("/expense/name")
+    public List<Expense> getExpenseByName(@RequestParam String name, Pageable page){
+        return expenseService.readByName(name, page);
+    }
+    @GetMapping("/expenses/date")
+    public List<Expense> getAllExpensesByDate(
+            @RequestParam(required = false) Date startDate,
+            @RequestParam(required = false) Date endDate,
+            Pageable page){
+        return expenseService.readByDate(startDate, endDate, page);
+    }
 }
