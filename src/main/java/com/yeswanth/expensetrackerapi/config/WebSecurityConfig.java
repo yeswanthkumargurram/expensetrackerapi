@@ -28,8 +28,7 @@ public class WebSecurityConfig {
         http.csrf().disable().authorizeHttpRequests().
                 requestMatchers("/login", "/register").permitAll().
                 anyRequest().authenticated().and().
-                sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-                http.httpBasic();
+                httpBasic();
         return http.build();
     }
 //    @Bean
