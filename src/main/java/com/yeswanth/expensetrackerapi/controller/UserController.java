@@ -14,10 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     private UserService userService;
-    @PostMapping("/register")
-    public ResponseEntity<User> save(@Valid @RequestBody UserModel user){
-        return new ResponseEntity<User>(userService.createUser(user), HttpStatus.CREATED);
-    }
+
 
     @GetMapping("/users/{id}")
     public ResponseEntity<User> readUser(@PathVariable Long id){

@@ -7,12 +7,15 @@ import com.yeswanth.expensetrackerapi.models.UserModel;
 import com.yeswanth.expensetrackerapi.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService{
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder bcryptEncoder;
     @Override
     public User createUser(UserModel user) {
         if(userRepository.existsByEmail(user.getEmail())){
@@ -20,6 +23,7 @@ public class UserServiceImpl implements UserService{
         }
         User newUser = new User();
         BeanUtils.copyProperties(user, newUser);
+        newUser.setPassword(bcryptEncoder.encode(newUser.getPassword()));
         return userRepository.save(newUser);
     }
 
@@ -34,7 +38,7 @@ public class UserServiceImpl implements UserService{
         oldUser.setName(user.getName() != null ? user.getName() : oldUser.getName());
         oldUser.setEmail(user.getEmail() !=null ? user.getEmail() : oldUser.getEmail());
         oldUser.setAge(user.getAge() != null ? user.getAge() : oldUser.getAge());
-        oldUser.setPassword(user.getPassword()!=null ? user.getPassword() : oldUser.getPassword());
+        oldUser.setPassword(user.getPassword()!=null ? bcryptEncoder.encode(user.getPassword()) : oldUser.getPassword());
         return userRepository.save(oldUser);
     }
 
