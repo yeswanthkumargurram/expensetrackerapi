@@ -7,6 +7,9 @@ import com.yeswanth.expensetrackerapi.models.UserModel;
 import com.yeswanth.expensetrackerapi.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -47,5 +50,13 @@ public class UserServiceImpl implements UserService{
         User user = read(id);
         userRepository.delete(user);
 
+    }
+    @Override
+    public User getLoggedInUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        System.out.println("!!!!!!"+email);
+        return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found for the email"+email));
+        
     }
 }

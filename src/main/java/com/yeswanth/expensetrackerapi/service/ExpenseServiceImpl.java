@@ -16,10 +16,12 @@ import java.util.Optional;
 public class ExpenseServiceImpl implements ExpenseService{
     @Autowired
     private ExpenseRepository expenseRepository;
+    @Autowired
+    private UserService userService;
     @Override
     public Page<Expense> getAllExpenses(Pageable page) {
-
-        return expenseRepository.findAll(page);
+        return expenseRepository.findByUserId(userService.getLoggedInUser().getId(), page);
+        //return expenseRepository.findAll(page);
     }
 
     @Override
@@ -39,6 +41,7 @@ public class ExpenseServiceImpl implements ExpenseService{
 
     @Override
     public Expense saveExpenseDetails(Expense expense) {
+        expense.setUser(userService.getLoggedInUser());
         return expenseRepository.save(expense);
     }
 
